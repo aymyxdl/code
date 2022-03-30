@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+      <canvas id="canvas1" width="600" height="600">
+      </canvas>
+
+      <script>
+        var canvas1 = document.getElementById('canvas1')
+        var ctx = canvas1.getContext('2d');
+        
+        // 使用 arc方法来绘制文本
+        // 这个其实就是写字(只不过用canvas画出来)
+        
+        // 设置字体大小和字型
+        ctx.font = '40px 微软雅黑';
+
+        // 设置阴影
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(0, 0, 0, 1)';
+        ctx.shadowOffsetX = 10;
+        ctx.shadowOffsety = 10;
+
+
+        // 绘制的内容
+        // 坐标轴 x , y
+        ctx.strokeText('hello world', 100, 100);
+        ctx.fillText('你好世界', 200, 300);
+
+
+        // 此时，就可以用来绘制弹幕了，弹幕其实就是用canvas画的
+        // 只不过放到视频上
+
+        var x = 600;
+        setInterval(() => {
+          x = x < 0 ? 600 : x;
+          x -= 1;
+          // 首先要清空画布
+          // 横坐标，纵坐标，宽度，高度
+          ctx.clearRect(0, 0, 600, 600)
+          
+          ctx.strokeText('hello world', x, 100);
+          ctx.fillText('你好世界', x, 300);
+          
+        }, 5);
+
+        // 清空画布：clearRect()
+
+
+      </script>
+</body>
+</html>

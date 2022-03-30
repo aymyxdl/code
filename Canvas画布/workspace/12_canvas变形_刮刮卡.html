@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="answer">谢谢回顾</div>
+    <canvas id="canvas1" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+    <canvas id="canvas2" width="800" height="300" style="width: 800px; height: 300px;"></canvas>
+  </div>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var cxt =  canvas.getContext('2d');
+
+    // 使用 globalCompositeOperation 来达到刮刮卡的效果
+    
+    // cxt.strokeStyle = 'blue'
+
+    cxt.fillStyle = 'black'
+    cxt.fillRect(100,100,400,200)
+
+    
+    // cxt.fillStyle = 'blue'
+    // cxt.fillRect(350,200,200,200)
+
+    /*
+      globalCompositeOperation
+
+      source-over	默认。在目标图像上显示源图像。
+      source-atop	在目标图像顶部显示源图像。源图像位于目标图像之外的部分是不可见的。
+      source-in	在目标图像中显示源图像。只有目标图像之内的源图像部分会显示，目标图像是透明的。
+      source-out	在目标图像之外显示源图像。只有目标图像之外的源图像部分会显示，目标图像是透明的。
+      destination-over	  和 source 相反
+      destination-atop	  和 source 相反
+      destination-in	    和 source 相反
+      destination-out	    和 source 相反
+      lighter	显示源图像 + 目标图像。
+      copy	显示源图像。忽略目标图像。
+      xor	使用异或操作对源图像与目标图像进行组合。(和linter一样)
+    
+    */
+
+    // cxt.globalCompositeOperation = 'source-over'       // 默认：正常显示
+    // cxt.globalCompositeOperation = 'source-atop'       // 交叉的地方显示后面画的图像
+    // cxt.globalCompositeOperation = 'source-in'         // 1.只显示交叉的部分(交集) 2.而且显示的是后面画的
+    // cxt.globalCompositeOperation = 'source-out'        // 1.显示后面画的 2.显示后面的没有相交的部分
+    // cxt.globalCompositeOperation = 'destination-over'
+    // cxt.globalCompositeOperation = 'destination-atop'
+    // cxt.globalCompositeOperation = 'destination-in'
+    // cxt.globalCompositeOperation = 'destination-out'
+
+    // cxt.globalCompositeOperation = 'lighter'
+    // cxt.globalCompositeOperation = 'copy'
+    // cxt.globalCompositeOperation = 'xor'
+
+    
+    cxt.fillStyle = 'blue'
+    cxt.fillRect(350,200,200,200)
+
+
+    // 上面实验完了各种效果
+    // 这里可以用 destination-out 来达到刮刮乐的效果
+
+
+    
+    var canvas2 = document.getElementById('canvas2');
+    var cxt2 =  canvas2.getContext('2d');
+    cxt2.fillStyle = 'gray'
+    cxt2.fillRect(0,0,800,300)
+
+    // 现在灰色的就是刮奖区
+    // 我们需要按住鼠标把这些刮开
+
+    // 所以需要监听鼠标 按住、松开、移动事件
+
+
+    var dom = document.querySelector('.wrap')
+
+    var canPlay = false;
+
+    // 这里因为要在canvas上面操作，所以监听canvas的事件
+    canvas2.onmousedown = function (e) {
+      console.log('按下')
+      canPlay = true;
+    }
+
+    canvas2.onmouseup = function (e) {
+      console.log('松开')
+      canPlay = false;
+    }
+
+    canvas2.onmousemove = function (e) {
+      if (canPlay) {
+        console.log(e)
+        cxt2.fillStyle = '';
+        cxt2.globalCompositeOperation = 'destination-out';
+        cxt2.beginPath()
+        cxt2.arc(e.offsetX, e.offsetY, 20, 0, 2 * Math.PI)
+        cxt2.fill()
+        cxt2.closePath()
+      }
+    }
+
+
+    // 注意的地方
+    // 1. 没有直接填充圆形，只有直接填充矩形
+    // fillRect()
+    // 圆形要先画圆，再填充
+    // arc() fill()
+
+
+    // 2. 如果没有开闭路线，那么擦涂掉灰色的时候，效果会有很明显的问题
+
+    // 3. destination-out
+    // 用的是这个效果   
+    //       1.显示后面画的，因为后面画的是透明的，所以才能看到底下的结果
+    //       2.显示的是原来的两者没有相交的地方：这样没挂到的地方，就还是被盖住的看不见
+
+
+    // 注意监听的事件：
+    //      onmousedown
+    //      onmouseup
+    //      onmousemove
+
+  </script>
+</body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  .wrap {
+    margin: 50px 0 0 100px;
+    position: relative;
+    height: 300px;
+    width: 800px;
+    /* background: red; */
+  }
+
+  .wrap .answer {
+    height: 100%;
+    width: 100%;
+    line-height: 300px;
+    text-align: center;
+    font-size: 30px;
+  }
+
+  #canvas2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+</html>

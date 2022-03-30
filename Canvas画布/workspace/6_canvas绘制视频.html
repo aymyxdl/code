@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <button class="start">开始</button>
+  <button class="pause">暂停</button>
+  
+  <canvas id="canvas1" width="600" height="600"></canvas>
+
+  <video style="display: none;" src="img/video.mp4" width="400" height="200" controls="controls"></video>
+
+  <script>
+
+    // 绘制视频
+    // 绘制视频的目的是为了防盗链,让别人无法下载(但是network下载的视频对方不能保存吗?)
+
+
+    var video = document.querySelector('video');
+    var canvas = document.getElementById('canvas1');
+    var ctx =  canvas.getContext('2d');
+
+    var start = document.querySelector('.start');
+    var pause = document.querySelector('.pause');
+
+    start.onclick = function () {
+      video.play();
+    }
+    
+    pause.onclick = function () {
+      video.pause();
+    }
+
+    // 通过把 video标签隐藏,用按钮来控制播放,暂停
+    // 达到隐藏视频的目的
+    // 然后用canvas进行图像的绘制
+
+    var intId;
+    video.onplay = function () {
+      intId = setInterval(() => {
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.fillRect(0, 0, 600, 600);
+        ctx.drawImage(video, 100, 200, 600, 300);
+      }, 16);
+    }
+
+    // drawImage 可以不用 image对象,而直接传video对象
+
+    video.onpause = function () {
+      clearInterval(intId);
+
+      // 我的谷歌报跨域错误....
+      // console.log(ctx.getImageData(0, 0 ,10, 10))
+      // 如果能正常运行此方法,会返回数组
+      // 数组的内容就是所选区域的像素点的填充值
+      // 4个为1单位,3个表示颜色,第4个表示透明度
+
+      // 因此我们可以主动替换这些颜色
+      // ctx.putImageData()
+    }
+
+    video.onload = function () {
+      // video 好像没有加载事件
+      console.log(1111111111);
+    }
+
+
+  </script>
+</body>
+</html>

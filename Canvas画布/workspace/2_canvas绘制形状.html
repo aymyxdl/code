@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+      <canvas id="canvas1" width="600" height="600">
+      </canvas>
+
+      <script>
+        var canvas1 = document.getElementById('canvas1')
+        var ctx = canvas1.getContext('2d');
+
+        // 设置绘制的起始点，横坐标，纵坐标
+        ctx.moveTo(50, 50);
+
+        // 设置经过某个位置
+        ctx.lineTo(50, 300);
+
+        // 如果要经过多个地方，可以多个lineTo
+        ctx.lineTo(300, 300);
+
+        
+        // ctx.lineTo(300, 50);   // 正方形
+        
+        // 绘制路径
+        ctx.strokeStyle = 'transparent';  // 我这里设置透明的描边
+        ctx.lineWidth = 1;    // 描边最低是1
+        ctx.stroke();         // 这个时候描边，就会显示出一条折线
+
+        ctx.fill();           // 如果选择填充，会把这些点按顺序圈出来的内容填充
+        // 这个时候，刚好是个直角三角形 
+        // 可以设置透明的描边，或者描边颜色和填充颜色一致
+
+
+
+
+
+        // --------------
+
+
+        console.log(ctx)          // 可以打印输出查看画笔的各种属性
+        ctx.lineCap = 'round';    // 起始点，和重点的线段边缘，设置为圆角(lineWidth 要大一点才看的出效果)
+
+        ctx.lineJoin = 'round';   // 路径连接处(折线处) 设置为圆角
+
+        ctx.miterLimit = 2;       // 设置最大的斜接长度，这个也要lineWidth 很大才看得出效果
+
+
+        // 另外，绘制线段的时候，最好设置起始点，和终点
+        // 因为如果不设置的话，实际画出来会导致连笔的效果
+
+        
+        ctx.strokeStyle = 'aqua';  // 我这里设置透明的描边
+        ctx.lineWidth = 10;    // 描边最低是1
+        
+        ctx.beginPath();
+
+        ctx.moveTo(50, 50);
+        ctx.lineTo(50, 300);
+        ctx.lineTo(300, 300);
+
+        ctx.closePath();
+ 
+        // 这个 beginPath 和 closePath 还有有点没搞懂具体效果
+
+        ctx.stroke();
+        ctx.fill();
+
+
+
+      </script>
+</body>
+</html>

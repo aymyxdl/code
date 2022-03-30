@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <canvas id="canvas1" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var ctx =  canvas.getContext('2d');
+
+    // 移动
+
+    // 这个translate是将坐标原点0，0 进行了移动
+    ctx.translate(300, 0);    // 这个时候原来的左上角的坐标就变成了， -300，0
+    ctx.fillStyle = 'deepskyblue';
+    ctx.fillRect(100, 100, 300, 100);
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 100, 100);
+
+
+    // 如果这个时候，移动了尺子，原来的内容是不会改变的
+    
+    ctx.translate(300, 0);
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, 50, 50);
+
+  </script>
+</body>
+</html>

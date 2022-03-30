@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+      <canvas id="canvas1" width="600" height="600">
+      </canvas>
+
+      <script>
+        var canvas1 = document.getElementById('canvas1')
+        var ctx = canvas1.getContext('2d');
+        
+        // 使用 arc方法来画圆
+
+        // 圆心坐标：
+        // 半径：
+        // 起始角度(弧度)： 0度是在水平右边(也就是圆心的三点钟方向)
+        // 结束角度(弧度)： 弧度使用PI 来计算的，Math.PI
+        // 顺时针还是逆时针(这个可以不传，默认是false：顺时针，true为逆时针)
+        ctx.arc(200, 200,    100,    0.5*Math.PI, 1.8*Math.PI,     false)
+        ctx.stroke();
+
+        // 这些绘制都是一瞬间完成的，可不可以放慢动作，让它再6秒内匀速绘制这种？
+        // 让人可以看到绘画的过程
+
+
+
+      </script>
+</body>
+</html>

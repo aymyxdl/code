@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01-作用域和值类型引用类型的传递</title>
+</head>
+<body>
+    
+    <script>
+        // 第1提 作用域
+        var num1 = 55;
+        var num2 = 66;
+
+        function f1(num, num1) {
+            num = 100;
+            num1 = 100;
+            num2 = 100;
+            console.log(num);
+            console.log(num1);
+            console.log(num2);
+        }
+        
+        f1(num1, num2);
+        // f1(num1, num);
+        console.log(num1);
+        console.log(num2);
+        console.log(num);
+
+
+        // 解析：
+        // 这道题不难(很简单)，然而，我写错了，
+        // 全局环境：
+        //      首先 f1(num1, num2) 传入了全局变量 num1(55), num2(66)
+        //          函数执行上下文环境：       
+        //                              f1 的 形参分别是 num, num1
+        //                              于是在函数内部有隐式的变量声明
+        //                              var num = 55, var num1 = 66
+        //                              然后赋值 num = 100, num1 = 100
+        //                              这时要赋值num2，发现形参没有num2，函数内部也没有num2的变量提升
+        //      于是全局 num2 = 100
+        //                              输出分别是 100 100 100
+        //      fn1调用结束，回到全局环境
+        //      此时num1还是55
+        //      num2由于上面重新赋值，等于100
+        //      num全局并没有这个变量，因此报错
+        //      于是输出分别为 55 100 num is not defined
+
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,95 @@
+(function () {
+    // 描述一个对象的类型
+
+    type myType = {
+        name: string,
+        age: number
+    }
+
+    // const obj: myType = {
+    //     name: 'ss',
+    //     age: 5
+    // }
+
+    /**
+     *  接口用来定义一个类结构，用来定义一个类中应该包含哪些属性和方法
+     *      同时接口也可以当成类型声明去使用（相当于上面的 myType）
+     *          不同之处，只可以声明一个 myType，却可以声明多个同样的interface
+     *          多个接口的结果： 合并所有接口中声明的属性（并集）
+     * 
+     */
+
+    interface myInter {
+        name: string;
+        age: number;
+    }
+
+    // const obj: myInter = {
+    //     name: '张三',
+    //     age: 5
+    // }
+
+    interface myInter {
+        gender: string;
+    }
+
+    const obj: myInter = {
+        name: '张三',
+        age: 5,
+        gender: '男'
+    }
+
+
+    /**
+     * 接口可以在定义类的时候去限制类的结构
+     * 
+     *  接口中的所有的属性都不能有实际的值
+     *  接口只定义对象的结构，而不考虑实际值
+     * 
+     *      在接口中所有的方法都是抽象方法
+     * 
+     * 
+     */
+
+
+    interface myIn {
+        name: string;
+
+        sayHello (): void;
+    }
+
+
+    /**
+     * 
+     * 定义类时，可以使类去实现一个接口
+     *      实现接口就是使类满去接口的要求
+     * 
+     */
+
+    abstract class MyClass implements myIn {
+        name: string;
+
+        constructor (name: string) {
+            this.name = name;
+        }
+
+        abstract sayHello (): void
+    }
+
+    class classOne extends MyClass {
+        constructor (name: string) {
+            super(name)
+        }
+
+        sayHello () {
+            console.log('我是类啊');
+        }
+    }
+
+    const cla = new classOne('类');
+    console.log(cla.name);
+
+    cla.sayHello();
+    
+
+})()

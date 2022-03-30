@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <div class="test"></div>
+</head>
+
+<body>
+    <script src="./index.js"></script>
+    <script type="text/javascript">
+        const obj = {
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        }
+        const target = shallowReactive({
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        });
+
+        // 拦截到了读和写的数据
+        // target.name += '--';
+        // 拦截到了读取数据，但是拦截不到写的数据
+        // target.cars.color = 'red';
+        // 拦截到了删除数据
+        // delete target.name;
+        // 拦截到了读取数据，但是拦截不到删除数据
+        // delete target.cars.name;
+
+        // 建议不要使用obj
+        const target2 = reactive({
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        });
+
+        // 拦截到了读和写的数据
+        // target2.name += '--';
+        // 拦截到了读和写的数据
+        // target2.cars.color = 'red';
+        // 拦截到了删除数据
+        // delete target2.name;
+        // 拦截到了读取数据，拦截到了删除数据
+        // delete target2.cars.name;
+
+
+
+        // ======================================
+        // ======================================
+
+
+
+        // 不能使用 shallowReadonly(ojb);
+        const target3 = shallowReadonly({
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        });
+
+        // 可以读取
+        // target3.name;
+        // 不能修改
+        // target3.name = '--';
+        // 不能删除
+        // delete target3.name;
+        // 拦截到了读取数据，可以修改
+        // target3.cars.name = 'city';
+        // target3.cars.color = 'red';
+        // 拦截到了读取数据，可以删除
+        // delete target3.cars.name;
+
+
+        // 不能使用 shallowReadonly(ojb);
+        const target4 = readonly({
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        });
+
+        // 可以读取
+        // target4.name;
+        // 不能修改
+        // target4.name = '--';
+        // 不能删除
+        // delete target4.name;
+        // 拦截到了读取数据，不能修改(深度的)
+        // target4.cars.name = 'city';
+        // target3.cars.color = 'red';
+        // 拦截到了读取数据，不可以删除(深度的)
+        // delete target4.cars.name;
+
+
+
+        // ======================================
+        // ======================================
+
+
+
+        // 不能使用 shallowReadonly(ojb);
+        const target5 = shallowRef({
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        });
+
+        // 可以劫持
+        // target5.value = '--';
+        // 劫持不到(浅的)
+        // target5.value.name = '--';
+
+        // ======================================
+        // ======================================
+
+
+
+        // 不能使用 shallowReadonly(ojb);
+        const target6 = ref({
+            name: 'xiaoming',
+            age: 15,
+            cars: {
+                name: 'benz',
+                color: 'yellow',
+            }
+        });
+
+        // 可以劫持
+        // target6.value = '--';
+        // 可以劫持(深度的)
+        // target6.value.name = '--';
+
+        
+
+        // ======================================
+        // ======================================
+
+        
+        // console.log(isRef(target), isReactive(target), isReadonly(target), isProxy(target));
+        // console.log(isRef(target2), isReactive(target2), isReadonly(target2), isProxy(target2));
+        // console.log(isRef(target3), isReactive(target3), isReadonly(target3), isProxy(target3));
+        // console.log(isRef(target4), isReactive(target4), isReadonly(target4), isProxy(target4));
+        // console.log(isRef(target5), isReactive(target5), isReadonly(target5), isProxy(target5));
+        // console.log(isRef(target6), isReactive(target6), isReadonly(target6), isProxy(target6));
+  
+
+        // function test(obj) {
+        //     console.log(obj?.a?.b?.c?.d);
+        // }
+
+        // test({
+        //     a: {
+        //         b: 'sss'
+        //     }
+        // })
+
+
+        // 问题：这个数据我们变成了响应式的了，如果把他放到页面上显示出来？
+
+        // document.getElementsByClassName('test')[0].innerHTML = JSON.stringify(target);
+        // document.getElementsByClassName('test')[0].innerHTML = target.name;
+        // setTimeout(() => {
+        //     // console.log(target.name);
+        //     // target.name;
+        //     target.name += '--';
+        //     // delete target.name;
+        //     // console.log(target);
+        //     // console.log(document.getElementsByClassName('test'));
+        // }, 3000)
+
+    </script>
+</body>
+
+</html>

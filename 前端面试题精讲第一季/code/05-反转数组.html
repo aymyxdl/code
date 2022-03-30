@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>05-反转数组</title>
+</head>
+
+<body>
+    <script>
+        const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        console.log(arr.reverse());
+        const str = '123456789';
+        console.log(str.split('').reverse().join(''));
+
+
+        // 解析：
+        // 通过数组的 reverse() 反转方法来达到目的
+        // 另外，join函数如果不写参数，默认用逗号进行拼接
+
+        // 关联：
+        // 1、push()、pop()和unshift()、shift()
+
+        // 联系：这两组同为对数组的操作，并且会改变数组的本身的长度及内容。
+        // 区别：不同的是 push()、pop() 是从数组的尾部进行增减，unshift()、shift() 是从数组的头部进行增减。
+
+        // 2、push()和unshift()
+        //      向数组的 尾部/头部 添加若干元素，并返回 数组的 新长度；
+
+        // 3、pop()和shift()
+        //      从数组的 尾部/头部 删除1个元素(删且只删除1个)，并返回 被删除的元素；空数组是继续删除，不报错，但返回undefined；
+    </script>
+</body>
+
+</html>

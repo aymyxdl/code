@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06-去掉数组中的重复性的数据</title>
+</head>
+
+<body>
+
+    <script>
+        const arr = [1, 1, 1, 2, 2, 5, 3, 5, 4, 9, 8, 3];
+        const arr1 = [...new Set(arr)];
+        console.log(arr1);
+
+
+        // 第二种去重
+        function unique(arr) {
+            return arr.filter(function(item, index, arr) {
+                //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
+                return arr.indexOf(item, 0) === index;
+            });
+        }
+
+        // 解析：
+        // set接收的参数是一个数组
+        // new Set(...arr) 我开始写成这样报错了
+    </script>
+</body>
+
+</html>

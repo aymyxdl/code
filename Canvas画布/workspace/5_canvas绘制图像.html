@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <canvas id="canvas1" width="10000" height="10000" style="height: 800px; width: 800px;"></canvas>
+
+  <script>
+    var canvas = document.getElementById('canvas1');
+    var ctx =  canvas.getContext('2d');
+
+    // 绘制图像
+    // ctx.drawImage(图片对象, 坐标x, 坐标y)
+    // ctx.drawImage(图片对象, 坐标x, 坐标y, 宽度, 高度)
+    // ctx.drawImage(图片对象, 图像裁剪的位置x, 图像裁剪的位置y, 裁剪的宽度, 裁剪的高度, 坐标x, 坐标y, 宽度, 高度)
+    // 参数的个数不同
+
+
+    var img = new Image();
+    img.src = 'img/img.jpg';
+    // ctx.drawImage(img, 100, 100)
+    // 这样你会发现，虽然没有报错，network也载入了图片，但是页面上什么都没有
+    // 这时因为图片的加载是异步的，还没有加载进来，你就已经画完了
+
+    // 所以需要一个事件：图片载入完成的事件
+
+    img.onload = function() {
+      // 图片太大会导致渲染空白
+      ctx.drawImage(img, 100, 100);
+      // 看完了第4个视频：7_canvas绘制图像数字处理
+      // 发现这里误会了，并不是图片太大无法渲染
+      // 而是一开始画布的大小设置的太小了，只占了超大分辨率图标的一个小角落
+      // 而这个图片刚好那个角落的色彩跟加载失败一样，所以误以为加载失败了
+      // 所以只需要设置好外面画布的大小，就可以正常现实了
+    }
+
+    // 可以绘制多张图片
+
+    var img2 = new Image();
+    img2.src = 'img/cat.jpg';
+
+    img2.onload = function () {
+      ctx.drawImage(img2, 400, 400, 60, 60)
+
+      // 这里面还可以进行打码的操作
+      // 其实就是绘制文字
+    }
+
+    // 图片的绘制是谁先加载完，谁绘制
+    // 后面绘制的会覆盖在前面的图像上
+    // 如果一定要设置先后顺序
+    // 可以在onload里面绘制
+
+
+
+
+    // 疑问：为社么这个canvas画出来的图片，邮件可以保存？
+    // 我看有的网站的背景图片，无法点击右键保存
+
+
+  </script>
+</body>
+</html>

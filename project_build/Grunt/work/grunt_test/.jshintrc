@@ -1,0 +1,24 @@
+{
+  "curly": true,
+  "eqnull": true,
+  "eqeqeq": true,
+  "expr": true,
+  "immed": true,
+  "newcap": true,
+  "noempty": true,
+  "noarg": true,
+  "regexp": true,
+  "browser": true,
+  "devel": true,
+  "node": true,
+  "boss": false,
+
+  // 不能使用未定义的变量 undefined
+  "undef": true,
+
+  // 语句后面必须要有分号
+  "asi": false,
+
+  // 预定义不检查的全局变量 这个是对 undef 的一个补充,因为有些变量是不需要我们自己去定义的(导入的依赖)
+  "predef": ["define", "BMap", "angular", "BMAP_STATUS_SUCCESS"]
+}

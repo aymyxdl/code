@@ -1,0 +1,98 @@
+{
+    /*
+        平常编译ts文件的时候，每次改了代码都需要在cmd窗口重新编译一次，很麻烦
+        可以用命令 tsc basic.ts -w
+        进入监测模式
+        这样，就不需要每次都手动重新编译
+
+
+        不过，又会有另外一个问题，如果有多个文件需要同时监测，那么需要打开多个cmd窗口进行监测
+        所以， 可以用 tsc -w
+        监测所有的文件
+
+
+        不过感觉，这样也很不灵活，所以，可以在  tsconfig.json
+        文件中进行ts 的编译选项的配置
+
+
+        tsconfig.json是js编译器的配置文件，ts编译器可以根据它的信息来对代码进行编译
+
+        "include" 用来指定哪些ts文件需要编译
+
+            路径：  **      表示任意目录
+                    *       表示任意文件
+
+        "exclude" 不需要被编译的文件目录
+
+            默认值： ["node_modules", "bower_components", "jspm_packages"]
+
+            所以如果没有特定的配置，不需要写 exclude
+
+
+        extends   定义被继承的的配置文件
+
+        files     指定被编译的文件列表，只有文件较少时使用
+    
+    */
+     
+
+    "include": [
+        // "./src/**/*"
+        "./**/*"
+    ],
+
+
+    /*
+        compilerOptions 编译器的选项    用来指定编译器进行编译的时候应该用哪些标准
+
+        target  用来指定ts被编译为的ES的版本
+
+        module  指定要使用的模块化的规范
+
+        lib     指定项目中要使用的库        不过一般使用默认
+
+        outDir  指定编译后文件所在的目录
+
+        outFile 将代码合并成一个文件    设置outFiles后，所有的全局作用域中的代码会合并到一个文件中  一般不使用
+
+        allowJs 是否对js进行编译，默认是false
+
+        checkJs 是否检查js代码是否符合语法规范，默认是false     按照TS的规范来检测JS的代码
+
+        removeComments  是否移除注释
+
+        noEmit  不生成编译后的文件      一般用在检测ts是否有语法错误，但是不执行最后一步的生成命令
+
+        noEmitOnError   当有错误时，不生成编译后的文件
+
+        // 下面的编译选项都是和语法检查相关的选项
+
+        strict  所有严格模式的总开关，这个严格模式是下面这些配置项的开关
+
+        alwaysStrict    用来设置编译后的文件是否使用严格模式，默认false     import export 会自动进入到严格模式，所以无需use strict
+
+        noImplicitAny   不允许隐式的any类型
+
+        noImplicitThis  不允许不明确类型的this
+
+        strictNullChecks    严格的检查空值      a.b.c   可以用 a?.b?.c
+
+        // 还有很多编译选项，但是都是一些不太经常用的，有需要去查api
+
+
+    
+    */
+
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "es2015",
+        // "lib": ["es6", "dom"],
+        "outDir": "./dist",
+        // "outFile": "./dist/app.js"
+        "allowJs": false,
+        "checkJs": false,
+        "removeComments": false,
+        "noEmit": false,
+        "noEmitOnError": true,        
+    }
+}

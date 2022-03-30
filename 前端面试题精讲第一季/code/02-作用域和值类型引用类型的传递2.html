@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02-作用域和值类型引用类型的传递2</title>
+</head>
+<body>
+
+    <script>
+        // 第2题 值类型和引用类型的传递
+        function Person(name, age, salary) {
+            this.name = name;
+            this.age = age;
+            this.salary = salary;
+        }
+
+        function f1(person) {
+            person.name = 'ls';
+            person = new Person('aa', 18, 10);
+        }
+
+        var p = new Person('zs', 18, 1000);
+        console.log(p.name);
+        f1(p);
+        console.log(p.name);
+
+
+        // 解析：
+        // 这道题不难(很简单)，然而，我又写错了，
+        // 这道题注意了，千万不要被迷惑了，大意失荆州
+
+        // 全局环境：
+        //      首先，代码一路执行，第一个 log 输出的是 zs，这个应该没有疑问
+        //      然后，调用f1(p), 把对象p 传进入
+        //      注意，因为函数是值传递，因此是复制了 p 的地址值传进去
+        //              函数执行上下文环境
+        //                              首先，函数内部隐式变量声明 var person = 传递进来的地址值
+        //                              至此，person和全局下的p指向的是同一片内存(堆中的对象)
+        //                              因此，person改变了name属性，p的name属性同样被改了
+        //                              然后，person进行了重新的赋值，指向了一片新的内存地址
+        //                              此时代码运行完毕，因为没有闭包，函数环境释放，内部对象全部被回收了
+        //      调用结束，回到全局
+        //      再次输出p.name,因为函数中第一行共用内存的时候改了
+        //      所以此时name 等于 ls
+    </script>
+</body>
+</html>

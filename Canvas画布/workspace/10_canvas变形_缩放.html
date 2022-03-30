@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <canvas id="canvas1" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var ctx =  canvas.getContext('2d');
+
+    ctx.fillStyle = 'deepskyblue';
+    ctx.fillRect(200, 0, 300, 100);
+
+    // scale 缩放
+    ctx.scale(2,2)
+    ctx.fillStyle = 'black';
+    ctx.fillRect(200, 300, 300, 100);
+
+
+    // 这里要注意，缩放针对的也是 画布 | 坐标原点 | 画尺 | 画笔 (四种说法都行)
+    // 比如上面x y 都放大了 2倍
+    // 然后我在坐标轴 200， 300 的位置画图象
+    // 实际上，这时候x轴相对于最开始的时候的位置在 200 * 2 = 400
+    // y 相对于最开始在 300 * 2 = 600
+    // 而我的画布和canvas的高刚好是 600
+    // 你会发现没有画出来
+    // 其实不是没画出来，而是在坐标轴600的地方画了，但是刚好超过了可视范围，就让人误以为没生效
+
+    
+    ctx.fillRect(200, 250, 300, 100); // 这样观察，你会发现在右下角画出来了
+
+
+    // 另外，缩放后，只对于缩放之后所画的图像生效
+    // 原来的是怎样，就还是怎样
+    // 而如果要还原，就需要将画布缩小
+    ctx.scale(0.5, 0.5) // 因为横纵都放大2倍， 2 * 0.5 = 1,这样就还原了 
+    
+    ctx.fillRect(50, 50, 50, 50);
+
+    // 或者用 save 和 resotre 来操作
+    // save： 保留画笔当前的状态
+    // restore: 恢复保留时候的状态
+    ctx.save();
+
+    ctx.scale(2.58, 4.67);
+
+    ctx.restore()   // 这样就不用去算要缩小多少才能变成正常的
+    // save 保留了很多属性，比如坐标，颜色，大小
+
+    // retore() 和 save() 可以多次操作(个人感觉是一个栈)
+
+    ctx.save()    // 第一次保留
+    // ...
+    ctx.save()    // 第二次保留
+    // ...
+    ctx.save()    // 第三次保留
+    // ... 
+
+    ctx.restore() // 恢复到第三次保留的状态
+    // ... 
+    ctx.restore() // 恢复到第二次保留的状态
+    // ... 
+    ctx.restore() // 恢复到第一次保留的状态
+    
+
+
+  </script>
+</body>
+</html>

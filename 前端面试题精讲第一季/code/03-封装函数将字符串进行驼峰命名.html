@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03-封装函数将字符串进行驼峰命名</title>
+</head>
+<body>
+    <script>
+        // 已知有字符串foo='get-element-by-id',写一个function将其转化成驼峰标识符'getElementById'
+        const str = 'get-element-by-id';
+        function convert(str) {
+            const arr = str.split('-');
+            let temp = '';
+            arr.forEach((item, index) => {
+                if (index) {
+                    temp = temp + item.slice(0, 1).toUpperCase() + item.slice(1)
+                } else {
+                    temp = temp + item;
+                }
+            });
+            return temp;
+        }
+        console.log(convert(str));
+
+
+        // 解析：
+    </script>
+</body>
+</html>

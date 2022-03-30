@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <canvas id="canvas1" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var ctx =  canvas.getContext('2d');
+
+    ctx.fillStyle = 'deepskyblue';
+    ctx.fillRect(200, 0, 300, 100);
+
+    // rotate 进行旋转
+    // 同样的，旋转的也是坐标轴原点(画尺)
+    // 角度是用 弧度制
+    ctx.rotate(Math.PI/4)
+    ctx.fillStyle = 'black';
+    ctx.fillRect(200, 0, 300, 100);
+
+
+  </script>
+</body>
+</html>

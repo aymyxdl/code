@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <canvas id="canvas1" width="2400" height="1800" style="width: 800px; height: 600px;"></canvas>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var ctx =  canvas.getContext('2d');
+
+    // canvas 标签上面的 宽高(外面)   和 style里的 宽高(里面)  有什么区别?
+
+    var img = new Image();
+    img.src = 'img/cat.jpg';
+
+    ctx.fillRect(0, 0, 1200, 900);
+
+    img.onload = function () {
+      ctx.drawImage(img, 100, 100)
+    }
+
+
+    // 外面的是 画布的大小  2400 * 1800
+    // 表示内部元素的分辨率
+
+    // 里面的是 canvas元素的大小  800 * 600
+    // canvas容器的分辨率
+
+
+
+    // 意思就是 canvas容器的大小是 800 * 600
+
+    // 而画布的大小是 2400 * 1800
+    // 因此将 800 分成 2400份
+    // 将600 分成 1800份
+
+    // 这样进行等比的缩放
+
+    // 如果画一个实际大小 1000 * 600 的图像
+    // 那么相对于canvas容器的大小则是 333.3 * 200 的大小
+
+
+
+    // 如果反过来,外面的大小是 200 * 100
+    // 而里面的大小是 800 * 400
+
+    // 如果我的图片,实际分辨率是 400 * 400
+    // 实际展示出来就是 1600 * 1600 的大小
+    // 但是因为canvas的大小是400 * 400,所以只能现实这样图片的一部分
+
+
+    // 这里感觉挺绕,有点难懂
+
+
+
+    // 还有，这期视频后半部分那个拿 数字的过程没看懂
+
+
+  </script>
+</body>
+</html>

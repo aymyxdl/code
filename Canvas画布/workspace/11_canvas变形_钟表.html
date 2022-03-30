@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <canvas id="canvas1" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var cxt =  canvas.getContext('2d');
+    
+    // 1. 先画出最基本的圆盘
+    cxt.lineWidth = 5;
+    cxt.strokeStyle = 'gray';
+    cxt.translate(400, 300);
+    cxt.arc(0, 0, 200, 0, 2*Math.PI);
+    cxt.stroke();
+
+    cxt.save();
+
+
+    // 2. 然后画出分针(也是秒针)的刻度
+    cxt.strokeStyle = 'orange';
+    cxt.lineWidth = 2;
+
+    // 先画出一个分钟的刻度，再循环遍历画出所有的分钟刻度
+    // 使用rotate 来进行画尺的偏移
+
+    for(let i = 0; i < 60; i += 1) {
+      cxt.save()
+      let transNum = 2 * Math.PI / 60 * i
+      cxt.rotate(transNum)    // 注意，这里每次循环完毕都需要清除一下状态
+                              // 不然下次旋转会按照这个标准来，偏移量就会大很多
+                              // 或者把transNum 放到外面，不用每次都根据i进行变化，固定为60分之一PI
+                              // 这样每次累加就会变成正常
+
+      cxt.beginPath()         // 说实话，这里的beginPath,和closePath我感觉用不到
+
+      cxt.moveTo(0, -190)
+      cxt.lineTo(0, -197.5)
+      cxt.stroke()
+
+      cxt.closePath()
+      cxt.restore()
+    }
+
+
+
+    // 3. 绘制时针的刻度
+
+    cxt.strokeStyle = 'gray';
+    cxt.lineWidth = 5;
+
+    let transNum = 2 * Math.PI / 12
+    cxt.beginPath()
+
+    for(let i = 0; i < 12; i += 1) {
+      cxt.rotate(transNum)    // 这里使用不保存的形式
+
+      cxt.moveTo(0, -180)
+      cxt.lineTo(0, -197.5)
+      cxt.stroke()            // 如果不用一次 beginPath closePath ，这个第一次会出问题
+    }
+
+    cxt.closePath()
+
+
+
+    // 4. 画出秒针，分钟，时针
+    // 这里需要先得到实际的时间，根据时间画出它们
+    // 因为它们分别需要根据时间的不同，有不同角度的偏移
+
+    function getTime() {
+
+      var time = new Date()
+      var hh = time.getHours() % 12;
+      var mm = time.getMinutes();
+      var ss = time.getSeconds();
+
+      console.log(hh, mm , ss)
+
+      // 先画秒针，最长，最细
+      cxt.restore()
+      cxt.save()
+      cxt.beginPath()
+
+      cxt.lineWidth = 2
+
+      cxt.rotate(2 * Math.PI / 60 * ss)          // 偏移量为当前秒针的刻度
+      cxt.moveTo(0, 20)
+      cxt.lineTo(0, -165)
+      cxt.stroke()
+
+      cxt.closePath()
+
+
+      // 画分针
+      cxt.restore()
+      cxt.save()
+
+      cxt.beginPath()
+
+      cxt.lineWidth = 3
+
+      // 2 * Math.PI / 60 * mm  是分针本身的偏移量
+      // 2 * Math.PI / 60 / 60 * ss  是加上秒针带来的偏移量
+      cxt.rotate(2 * Math.PI / 60 * mm + 2 * Math.PI / 60 / 60 * ss)          // 偏移量为当前秒针的刻度
+      cxt.moveTo(0, 10)
+      cxt.lineTo(0, -140)
+      cxt.stroke()
+
+      cxt.closePath()
+
+
+      // 画时针
+      cxt.restore()
+      cxt.save()
+
+      cxt.beginPath()
+
+      cxt.lineWidth = 4
+
+      // 2 * Math.PI / 60 * mm  是分针本身的偏移量
+      // 2 * Math.PI / 60 / 60 * ss  是加上秒针带来的偏移量
+      cxt.rotate(2 * Math.PI / 12 * hh + 2 * Math.PI / 60 / 12 * mm + 2 * Math.PI / 60 / 60 / 12 * ss)          // 偏移量为当前秒针的刻度
+      cxt.moveTo(0, 5)
+      cxt.lineTo(0, -100)
+      cxt.stroke()
+
+      cxt.closePath()
+    }
+
+
+
+    getTime();
+    // 5. 画好了当前时刻的表盘，就需要让canvas每秒都进行刷新，所以需要使用定时器
+    // 将上面的代码包裹起来，写成一个函数
+    var interId = setInterval(() => {
+      cxt.save()
+      cxt.arc(0, 0, 180, 0, 2*Math.PI);
+      cxt.fillStyle = 'white';
+      cxt.fill()
+      cxt.restore()
+
+      getTime();
+      // 这里每次调用前，都需要清除一下画布的内容，不然每次的痕迹都会有残留
+    }, 1000);   // 这个1000定时设置的越小，1s内的误差就越精准，不过开销越大
+
+  </script>
+</body>
+</html>

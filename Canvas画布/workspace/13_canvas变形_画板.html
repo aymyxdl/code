@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+  <div class="wrap">
+    <div class="active1 type1">画笔</div>
+    <div class="type1">矩形</div>
+    <div class="type1">圆形</div>
+    <div class="type1">橡皮擦</div>
+    <div>下载图片</div>
+    <div class="active2 type2">细</div>
+    <div class="type2">粗</div>
+    <div class="type2">普通</div>
+    <div><input type="text"></div>
+  </div>
+  <canvas id="canvas1" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+
+  <script>
+
+    var canvas = document.getElementById('canvas1');
+    var cxt =  canvas.getContext('2d');
+
+    var typeOne = document.getElementsByClassName('type1')
+    var typeTwo = document.getElementsByClassName('type2')
+
+    let typeName = 'drawImp'       // 画笔初始方法
+    let styleColor = 'black'    // 画笔初始颜色
+    let lineWidth = 5           // 画笔初始宽度
+    let canPlay = false
+    let lastX = 0, lastY = 0
+    let imageData = null
+
+    for (let i = 0,length = typeOne.length; i < length; i += 1) {
+      typeOne[i].onclick = function () {
+        removeClass()
+        typeOne[i].className = 'type1 active1'
+        if (i === 0) {
+          typeName = 'drawImp'
+        } else if (i === 1) {
+          typeName = 'drawRect'
+        } else if (i === 2) {
+          typeName = 'arc'
+        } else if (i === 3) {
+          typeName = 'clear'
+        }
+      }
+    }
+
+    function removeClass () {
+      for (let i = 0,length = typeOne.length; i < length; i += 1) {
+        typeOne[i].className = 'type1'
+      }
+    }
+    
+
+    for (let i = 0,length = typeTwo.length; i < length; i += 1) {
+      typeTwo[i].onclick = function () {
+        removeClassTwo()
+        if (i === 0) {
+          lineWidth = 5
+        } else if (i === 1) {
+          lineWidth = 10
+        } else if (i === 2) {
+          lineWidth = 20
+        }
+        typeTwo[i].className = 'type2 active2'
+      }
+    }
+
+
+    function removeClassTwo () {
+      for (let i = 0,length = typeTwo.length; i < length; i += 1) {
+        typeTwo[i].className = 'type2'
+      }
+    }
+
+    // 这里因为要在canvas上面操作，所以监听canvas的事件
+    canvas.onmousedown = function (e) {
+      console.log('按下')
+      canPlay = true;
+      lastX = e.offsetX
+      lastY = e.offsetY
+
+      if (typeName === 'drawImp') {
+        cxt.lineWidth = lineWidth
+        // 优化一个拐弯的折角弧度
+        cxt.lineCap = 'round'
+        cxt.lineJoin = 'round'
+
+        // 点击鼠标的时候进行beginPath
+        cxt.beginPath()
+        cxt.moveTo(lastX, lastY)
+      } else if (typeName === 'drawRect') {
+
+      }
+    }
+
+    canvas.onmouseup = function (e) {
+      console.log('松开')
+      canPlay = false;
+      imageData = cxt.getImageData(0, 0, 800, 600)
+
+      if (typeName === 'drawImp') {
+        cxt.closePath()
+      }
+    }
+
+    canvas.onmousemove = function (e) {
+      if (canPlay) {
+        console.log(e)
+        funcObj[typeName](e)
+      }
+    }
+
+    // 使用 对象[key] 的方式来调用方法，可以省略很多判断操作
+    // 使调用方法变的更简洁
+    var funcObj = {
+      draw: function (e) {
+        // 这种方式实现画笔功能有缺陷
+        // 因为速度太快，会变成一个一个的圆圈
+        cxt.fillStyle = styleColor
+        cxt.beginPath()
+        cxt.arc(e.offsetX, e.offsetY, lineWidth, 0, 2 * Math.PI)
+        cxt.fill()
+        cxt.closePath()
+      },
+      clear: function (e) {
+        cxt.fillStyle = 'white'
+        cxt.beginPath()
+        cxt.arc(e.offsetX, e.offsetY, 20, 0, 2 * Math.PI)
+        cxt.fill()
+        cxt.closePath()
+      },
+      drawImp: function (e) {
+        // 画笔的改进，使用线条来画
+
+        // 注意，beginPath 和 closePath 一定不能放在这里面进行多次开关
+        // 不然画出来的线段会有问题：肉眼可见
+        // 搞清楚会出现什么问题
+        // 而且，在鼠标按下的时候，就要同时设置beginPath 和 moveTo
+        // 鼠标抬起 closePath
+        cxt.lineTo(e.offsetX, e.offsetY)
+        cxt.stroke()
+      },
+      drawRect: function (e) {
+        // 画矩形
+
+        cxt.clearRect(0, 0, 800, 600)
+
+        // 矩形需要解决的问题是，如果使图像随着你的鼠标移动而变化
+        // 在最终收笔的时刻，完成绘制
+        // 因为我们需要在clearRect后，把图像恢复到调用 draRect 之前
+        // 每次抬起鼠标后，保存图像
+
+        if (imageData !== null) {
+          cxt.putImageData(imageData, 0, 0, 0, 0, 800, 600)
+        }
+
+
+
+        cxt.beginPath()
+        cxt.rect(lastX, lastY, e.offsetX, e.offsetY)
+        cxt.stroke()
+        cxt.closePath()
+      }
+    }
+
+
+    // 鼠标移动的时候，选e中的哪种坐标作为 画画的坐标
+  </script>
+</body>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wrap {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px 0;
+    /* background: red; */
+  }
+
+  .wrap div {
+    height: 100%;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: 0 20px;
+    line-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wrap div.active1, div.active2 {
+    border: 1px solid rgb(97, 218, 240);
+    box-shadow: 0px 0px 20px rgb(97, 218, 240);
+  }
+</style>
+</html>
